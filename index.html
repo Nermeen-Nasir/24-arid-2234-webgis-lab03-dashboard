@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Rawalpindi Parks Navigation Dashboard</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <button id="themeBtn" onclick="toggleTheme()" title="Dark / Light">🌙</button>
+  <button id="themeBtn" onclick="document.body.classList.toggle('dark')">🌓 Theme</button>
+  <h1>🌳 Rawalpindi Parks WebGIS Navigation Dashboard</h1>
+  <small>Find parks, live location, route, distance &amp; travel time</small>
+</header>
+<div class="main">
+  <div class="sidebar" id="left">
+    <h3>📍 Parks of Rawalpindi</h3>
+    <input class="search" id="q" placeholder="Search park...">
+    <button class="clear" style="background:#2e7d32" id="discBtn" onclick="discover()">🛰️ Discover Real Parks from OSM</button>
+    <div id="locList"></div>
+    <p style="font-size:12px;color:#555;margin-top:6px">💡 Tip: map par click karke custom destination bhi chun sakte hain.</p>
+  </div>
+
+  <div id="map"></div>
+
+  <div class="sidebar" id="right">
+    <h3>👤 Student Info</h3>
+    <div class="card id"><div class="avatar">NN</div><div>
+      <b>Name:</b> Nermeen Nasir<br>
+      <b>ARID No:</b> 24-ARID-2234<br>
+      <b>City:</b> Rawalpindi</div></div>
+
+    <div class="tabs">
+      <button class="tab on" data-t="t1">🚦 Route</button>
+      <button class="tab" data-t="t2">📊 Analysis</button>
+      <button class="tab" data-t="t3">🧰 Tools</button>
+    </div>
+
+    <div class="pane on" id="t1">
+      <div class="modes">
+        <button data-m="car" class="on">🚗 Car</button>
+        <button data-m="bike">🚴 Bike</button>
+        <button data-m="foot">🚶 Walk</button>
+      </div>
+      <div class="card" id="routeInfo">Select a park to see the route.</div>
+      <h3>📈 Elevation Profile</h3>
+      <div class="card" id="elev">Select a route to see its elevation.</div>
+      <button class="clear" style="background:#455a64" onclick="animateTrip()">▶ Animate Trip</button>
+      <button class="clear" onclick="clearRoute()">Clear Route</button>
+      <h3>🧭 Directions</h3>
+      <ol id="steps"><li>No route yet.</li></ol>
+    </div>
+
+    <div class="pane" id="t2">
+      <h3>🌤️ Smart Park Advisor</h3>
+      <div class="card" id="advisor">Select a park to get a live visit score.</div>
+      <button class="clear" style="background:#1565c0" onclick="rankAll()">🏆 Rank All Parks Now</button>
+      <h3>🎯 Service Area</h3>
+      <button class="clear" style="background:#ef6c00" onclick="isochrone()">Show 5 / 10 / 15 min Reach Zones</button>
+      <div class="card" id="iso" style="display:none"></div>
+      <h3>⭕ Buffer Analysis</h3>
+      <div class="card"><input type="range" id="buf" min="1" max="10" value="3" oninput="buffer()" style="width:100%">
+        <div id="bufOut">Slide to draw a radius around you (km).</div></div>
+    </div>
+
+    <div class="pane" id="t3">
+      <h3>🧺 Nearby Amenities (1 km)</h3>
+      <div class="row"><button onclick="amenities('cafe','☕')">☕</button><button onclick="amenities('toilets','🚻')">🚻</button><button onclick="amenities('parking','🅿️')">🅿️</button><button onclick="amenities('restaurant','🍽️')">🍽️</button></div>
+      <h3>🗺️ Park Tour Planner</h3>
+      <div class="row"><button onclick="addTour()">➕ Add park</button><button onclick="planTour()">🚀 Plan tour</button></div>
+      <div class="card" id="tourOut">Select a park, press Add, repeat for 2+ parks, then Plan tour.</div>
+      <h3>🎙️ Navigation</h3>
+      <button class="clear" style="background:#6a1b9a" onclick="speak()">🔊 Speak Directions</button>
+      <button class="clear" style="background:#00838f" id="trackBtn" onclick="track()">📡 Start Live Tracking</button>
+      <div class="card" id="live" style="display:none"></div>
+      <h3>💾 Export</h3>
+      <button class="clear" style="background:#37474f" onclick="exportReport()">📄 Download Route Report</button>
+      <button class="clear" style="background:#37474f" onclick="exportGeo()">🌍 Download Route (GeoJSON)</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
